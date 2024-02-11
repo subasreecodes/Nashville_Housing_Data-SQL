@@ -96,15 +96,14 @@ select *
 from Nashville_Housing_Data
 
 /*remove duplicates*/
-DELETE FROM Nashville_Housing_Data
-WHERE ROWID IN (
-    SELECT ROWID
-    FROM (
-        SELECT ROWID,
-               ROW_NUMBER() OVER (PARTITION BY ParcelID, PropertyAddress, SalePrice, SaleDate, LegalReference ORDER BY uniqueID) AS row_num
-        FROM Nashville_Housing_Data
+delete from Nashville_Housing_Data
+where rowid in (
+    select rowid
+    from (
+        select rowid, row_number() over (partition by ParcelID, PropertyAddress, SalePrice, SaleDate, LegalReference oreder by uniqueID) as row_num
+        from Nashville_Housing_Data
     ) Subquery
-    WHERE row_num > 1
+    where row_num > 1
 );
 
 select *
